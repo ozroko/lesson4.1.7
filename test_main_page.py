@@ -1,9 +1,8 @@
-link = "http://selenium1py.pythonanywhere.com/"
+from .pages.main_page import MainPage
 
 
-def test_guest_should_see_basket_link_on_the_main_page(browser):
-    browser.get(link)
-    button = browser.find_element_by_class_name("btn.btn-primary.btn-block")
-    button.scrool(-10)
-    button.click()
-
+def test_guest_can_go_to_login_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = MainPage(browser, link)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+    page.open()  # открываем страницу
+    page.should_be_login_link()
