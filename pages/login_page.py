@@ -1,5 +1,8 @@
+import time
+
 from .base_page import BasePage
 from .locators import LoginPageLocators
+from .locators import BasePageLocators
 
 
 class LoginPage(BasePage):
@@ -23,3 +26,9 @@ class LoginPage(BasePage):
     def should_be_register_form(self):
         # реализуйте проверку, что есть форма регистрации на странице
         assert True
+
+    def register_new_user(self, email,password):
+        self.driver.find_element(*BasePageLocators.EMAIL_LOCATOR).send_keys(email)
+        self.driver.find_element(*BasePageLocators.PASSWORD_LOCATOR1).send_keys(password)
+        self.driver.find_element(*BasePageLocators.PASSWORD_LOCATOR2).send_keys(password)
+        self.driver.find_element(*BasePageLocators.BUTTON_REGISTRATION).click()
