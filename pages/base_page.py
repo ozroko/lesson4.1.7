@@ -15,7 +15,7 @@ class BasePage():
     def __init__(self, driver, url, timeout=10):
         self.driver = driver
         self.url = url
-        self.driver.implicitly_wait(timeout)
+        # self.driver.implicitly_wait(timeout)
 
     def go_to_site(self):
         return self.driver.get(self.url)
@@ -25,7 +25,7 @@ class BasePage():
         basket.click()
 
     def should_be_a_link_for_the_cart(self):
-        assert self.is_element_present(*BasketPageLocators.CART_LINK), \
+        assert self.is_disappeared(*BasketPageLocators.CART_LINK), \
             "Basket link is not presented"
 
     def go_to_login_page(self):
@@ -71,6 +71,10 @@ class BasePage():
             print("error NoSuchElementException")
             return False
         return True
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON)\
+            , "User icon is not presented,probably unauthorised user"
 
     def waiting_text_that_the_cart_is_empty(self, how, what, time=4):
         language = self.driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
