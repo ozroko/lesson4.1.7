@@ -2,6 +2,7 @@ import time
 
 from .pages.product_page import ProductPage
 from .pages.login_page import LoginPage
+from .pages.basket_page import BasketPage
 import pytest
 
 
@@ -16,7 +17,8 @@ import pytest
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"
                                   ])
-def test_guest_can_add_product_to_basket(browser,link):
+@pytest.mark.need_review
+def test_guest_can_add_product_to_basket(browser, link):
     main_page = ProductPage(browser, link)
     main_page.go_to_site()
     main_page.pressing_buttons()
@@ -49,6 +51,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     main_page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     main_page = LoginPage(browser, link)
@@ -56,6 +59,16 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     main_page.go_to_login_page()
     main_page.should_be_login_link()
     time.sleep(2)
+
+
+@pytest.mark.need_review
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    open_page = BasketPage(browser, link)
+    open_page.go_to_site()
+    open_page.open_the_cart()
+    open_page.there_should_be_no_item_in_the_cart()
+    open_page.there_should_be_an_empty_cart_message()
 
 
 @pytest.mark.reg
@@ -68,6 +81,7 @@ class TestUserAddToBasketFromProductPage():
         self.page.register_new_user(str(time.time()) + "@fakemail.org", str(time.time()))
         self.page.should_be_authorized_user()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7"
         main_page = ProductPage(browser, link)
